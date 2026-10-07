@@ -84,5 +84,18 @@ public class GlobalExceptionHandler {
 		
 		return new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), exception.getMessage(), null, LocalDateTime.now());
 	}
+	
+	@ExceptionHandler(BudgetNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ErrorResponse handleBudgetNotFound(
+	        BudgetNotFoundException exception) {
+
+	    return new ErrorResponse(
+	            HttpStatus.NOT_FOUND.value(),
+	            exception.getMessage(),
+	            null,
+	            LocalDateTime.now()
+	    );
+	}
 
 }
