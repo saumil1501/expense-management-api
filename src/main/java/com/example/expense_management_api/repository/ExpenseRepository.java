@@ -2,6 +2,7 @@ package com.example.expense_management_api.repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -44,5 +45,20 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long>, JpaSpec
 	        Long userId,
 	        LocalDate startDate,
 	        LocalDate endDate);
+	
+	@Query("""
+		    SELECT e.category.id,
+		           e.category.name,
+		           SUM(e.amount)
+		    FROM Expense e
+		    WHERE e.user.id = :userId
+		      AND e.expenseDate BETWEEN :startDate AND :endDate
+		    GROUP BY e.category.id, e.category.name
+		    ORDER BY SUM(e.amount) DESC
+		""")
+		List<Object[]> findExpensesByCategory(
+		        @Param("userId") Long userId,
+		        @Param("startDate") LocalDate startDate,
+		        @Param("endDate") LocalDate endDate);
 	
 }

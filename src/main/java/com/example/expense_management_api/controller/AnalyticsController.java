@@ -1,9 +1,14 @@
 package com.example.expense_management_api.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.expense_management_api.dto.BudgetResponse;
+import com.example.expense_management_api.dto.CategoryExpenseResponse;
 import com.example.expense_management_api.dto.FinancialSummaryResponse;
+import com.example.expense_management_api.dto.MonthlyTrendResponse;
 import com.example.expense_management_api.service.AnalyticsService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,5 +38,39 @@ public class AnalyticsController {
                 analyticsService.getMonthlySummary(
                     month,
                     year));
+    }
+    
+    @GetMapping("/expenses-by-category")
+    public ResponseEntity<List<CategoryExpenseResponse>>
+            getExpensesByCategory(
+                @RequestParam Integer month,
+                @RequestParam Integer year) {
+
+        return ResponseEntity.ok(
+                analyticsService.getExpensesByCategory(
+                        month,
+                        year));
+    }
+    
+    @GetMapping("/monthly-trend")
+    public ResponseEntity<List<MonthlyTrendResponse>>
+            getMonthlyTrend(
+                @RequestParam Integer year) {
+
+        return ResponseEntity.ok(
+                analyticsService.getMonthlyTrend(year));
+    }
+    
+    
+    @GetMapping("/budget-performance")
+    public ResponseEntity<List<BudgetResponse>>
+            getBudgetPerformance(
+                @RequestParam Integer month,
+                @RequestParam Integer year) {
+
+        return ResponseEntity.ok(
+                analyticsService.getBudgetPerformance(
+                        month,
+                        year));
     }
 }
