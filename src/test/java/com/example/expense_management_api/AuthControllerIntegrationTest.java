@@ -1,5 +1,9 @@
 package com.example.expense_management_api;
 
+import com.example.expense_management_api.repository.BudgetRepository;
+import com.example.expense_management_api.repository.CategoryRepository;
+import com.example.expense_management_api.repository.ExpenseRepository;
+import com.example.expense_management_api.repository.IncomeRepository;
 import com.example.expense_management_api.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +25,29 @@ class AuthControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
+    private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private IncomeRepository incomeRepository;
+
+    @Autowired
+    private BudgetRepository budgetRepository;
+
+    @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @BeforeEach
     void setUp() {
+
+        budgetRepository.deleteAll();
+        expenseRepository.deleteAll();
+        incomeRepository.deleteAll();
+
+        categoryRepository.deleteAll();
+
         userRepository.deleteAll();
     }
 
