@@ -116,6 +116,7 @@ public class BudgetService {
             BudgetRequest request) {
 
         User user = getCurrentUser();
+        
 
         Budget budget = budgetRepository
                 .findByIdAndUserId(id, user.getId())
@@ -132,9 +133,26 @@ public class BudgetService {
         budget.setMonth(request.getMonth());
         budget.setYear(request.getYear());
         budget.setCategory(category);
+        
+        
+        boolean duplicate =
+                budgetRepository
+                    .existsByUserIdAndCategoryIdAndMonthAndYearAndIdNot(
+                        user.getId(),
+                        category.getId(),
+                        request.getMonth(),
+                        request.getYear(),
+                        id);
+
+        if (duplicate) {
+            throw new DuplicateResourceException(
+                "Budget already exists for this category and month");
+        }
 
         return mapToResponse(
                 budgetRepository.save(budget));
+        
+        
     }
 
     @Transactional

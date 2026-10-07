@@ -24,4 +24,11 @@ public interface BudgetRepository
             Long categoryId,
             Integer month,
             Integer year);
+    
+    boolean existsByUserIdAndCategoryIdAndMonthAndYearAndIdNot(
+            Long userId,
+            Long categoryId,
+            Integer month,
+            Integer year,
+            Long id);
 }

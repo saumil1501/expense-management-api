@@ -97,5 +97,18 @@ public class GlobalExceptionHandler {
 	            LocalDateTime.now()
 	    );
 	}
+	
+	@ExceptionHandler(IncomeNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ErrorResponse handleIncomeNotFound(
+	        IncomeNotFoundException exception) {
+
+	    return new ErrorResponse(
+	            HttpStatus.NOT_FOUND.value(),
+	            exception.getMessage(),
+	            null,
+	            LocalDateTime.now()
+	    );
+	}
 
 }

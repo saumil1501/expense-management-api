@@ -9,6 +9,7 @@ import com.example.expense_management_api.dto.IncomeRequest;
 import com.example.expense_management_api.dto.IncomeResponse;
 import com.example.expense_management_api.entity.Income;
 import com.example.expense_management_api.entity.User;
+import com.example.expense_management_api.exception.IncomeNotFoundException;
 import com.example.expense_management_api.repository.IncomeRepository;
 import com.example.expense_management_api.repository.UserRepository;
 import com.example.expense_management_api.security.SecurityUtils;
@@ -70,8 +71,7 @@ public class IncomeService {
                         id,
                         currentUser.getId())
                 .orElseThrow(() ->
-                        new RuntimeException(
-                            "Income not found with id: " + id));
+                new IncomeNotFoundException(id));
 
         return mapToResponse(income);
     }
@@ -88,8 +88,7 @@ public class IncomeService {
                         id,
                         currentUser.getId())
                 .orElseThrow(() ->
-                        new RuntimeException(
-                            "Income not found with id: " + id));
+                new IncomeNotFoundException(id));
 
         income.setSource(request.getSource().trim());
         income.setAmount(request.getAmount());
@@ -110,9 +109,8 @@ public class IncomeService {
                         id,
                         currentUser.getId())
                 .orElseThrow(() ->
-                        new RuntimeException(
-                            "Income not found with id: " + id));
-
+                new IncomeNotFoundException(id));
+        
         incomeRepository.delete(income);
     }
 
